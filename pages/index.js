@@ -6,11 +6,19 @@ import { Search } from "lucide-react";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [error, setError] = useState("");
   const router = useRouter();
 
   const handleSearch = (e) => {
     e.preventDefault();
+    if (searchTerm.trim() === "") {
+      setError("Please enter a search name");
+      return;
+    } else{
+      setError("")
+    
     router.push(`/search?query=${encodeURIComponent(searchTerm)}`);
+    }
   };
 
   return (
@@ -38,6 +46,9 @@ export default function Home() {
             className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white bg-opacity-70 shadow-sm transition duration-300 ease-in-out"
             aria-label="Search input"
           />
+           {error && (
+            <p className="text-gray-500 text-center mt-2">{error}</p> 
+          )}
         </form>
       </div>
     </div>

@@ -11,6 +11,7 @@ import {
   DialogFooter,
 } from "../components/ui/dialog";
 import { MapPin, Phone, User } from "lucide-react";
+import Image from 'next/image';
 
 export default function SearchResults() {
   const router = useRouter();
@@ -21,7 +22,12 @@ export default function SearchResults() {
 
   useEffect(() => {
     if (query) {
-      fetchResults();
+      if (query.trim() === '') {
+        setLoading(false);
+        setResults([]);
+      } else {
+        fetchResults();
+      }
     }
   }, [query]);
 
@@ -46,20 +52,24 @@ export default function SearchResults() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-white via-white to-[#b1cbff] p-8 pt-24">
       <Header2 />
-
-      <h1 className="text-3xl font-bold mb-8">Search Results for "{query}"</h1>
       {loading ? (
-        <p>Loading...</p>
-      ) : results.length > 0 ? (
+        <p> </p>
+      ): query.trim() === '' ? (
+        <div className="text-center">
+          <p className="text-xl mb-4">Please enter a search term.</p>
+        </div>
+         ): results.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 rounded-sm">
           {results.map((user, index) => (
             <div
               key={index}
               className="bg-white border rounded-xl shadow-md p-6 flex flex-col items-center"
             >
-              <img
+              <Image
                 src="/placeholder.png"
                 alt="User"
+                width = {96}
+                height={96}
                 className="w-24 h-24 rounded-full mb-4"
               />
               <h2 className="text-xl font-semibold mb-2 flex items-start">
@@ -86,8 +96,7 @@ export default function SearchResults() {
         </div>
       ) : (
         <div className="text-center">
-          <p className="text-xl mb-4">No results found</p>
-          <img src="/not_found.png" alt="No results" className="mx-auto" />
+          <Image src="/not_found.png" alt="No results"  width={500} height={300}  className="mx-auto" priority />
         </div>
       )}
 
@@ -115,9 +124,11 @@ export default function SearchResults() {
               <p className="mt-4">
                 <strong>Profile Image:</strong>
               </p>
-              <img
+              <Image
                 src="/placeholder.png"
                 alt="User"
+                width={256}
+                height={192}
                 className="w-64 h-48 rounded-md mt-4"
               />
             </div>
