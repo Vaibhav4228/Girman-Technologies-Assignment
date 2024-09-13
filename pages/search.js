@@ -53,7 +53,7 @@ export default function SearchResults() {
     <div className="min-h-screen bg-gradient-to-b from-white via-white to-[#b1cbff] p-8 pt-24">
       <Header2 />
       {loading ? (
-        <p> </p>
+        <p> Loading...</p>
       ): query.trim() === '' ? (
         <div className="text-center">
           <p className="text-xl mb-4">Please enter a search term.</p>
